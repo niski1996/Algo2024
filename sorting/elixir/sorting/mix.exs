@@ -14,7 +14,7 @@ defmodule Sorting.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Sorting.Application, []}  # Moduł startowy aplikacji
+      mod: {Sorting.Application, []}  # Moduł starctowy aplikacji
     ]
   end
 

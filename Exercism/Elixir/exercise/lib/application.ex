@@ -1,12 +1,15 @@
 defmodule Exercise.Application do
   use Application
 
+  alias Inspect.Algebra
   alias SecretHandshake
+  alias Allergies
 
   def start(_type, _args) do
     IO.puts("Application started")
 
-    tmpVal = SecretHandshake.commands(1)
+    tmpVal = Allergies.list(2)
+
 
     IO.puts("dupa")
 

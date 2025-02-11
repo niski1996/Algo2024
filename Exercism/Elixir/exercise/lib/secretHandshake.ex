@@ -21,13 +21,14 @@ defmodule SecretHandshake do
     |> add_command(code, 0b00100, "close your eyes")
     |> add_command(code, 0b01000, "jump")
 
-    if Bitwise.band(0b10000, code)==0b10000 do
+    if Bitwise.band(0b10000, code)!=0b10000 do
       Enum.reverse(commands)
     else
       commands
     end
+end
 
-  end
+
   defp add_command(commands, code, mask, action) do
     if Bitwise.band(mask, code) == mask do
       [action | commands]

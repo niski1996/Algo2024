@@ -7,6 +7,7 @@ defmodule Allergies do
     flags
     |> Integer.digits(2)
     |> Enum.with_index()
+    |> Enum.reverse()
     |> Enum.reduce([], &append/2)
 
   end

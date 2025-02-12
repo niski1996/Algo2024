@@ -1,45 +1,51 @@
 defmodule VariableLengthQuantity do
   import Bitwise
+
   @doc """
   Encode integers into a bitstring of VLQ encoded bytes
   """
-  @spec encode(integers :: [integer]) :: binary
+  @spec encode([integer]) :: binary
   def encode(integers) do
-    [number | tail] = integers
-    encoded_list= encode(number)
-    [last_bajt | tail] = encoded_list
-    encoded_list_with_stop = [band(last_bajt, 0b10000000) | tail]
-    ordered_bajts = Enum.reverse(encoded_list_with_stop)
+    integers
+    |> Enum.map(&encode_single/1)
+    |> List.flatten()
+    |> to_bitwise()
   end
 
-  @spec to_bitwise([binary]) :: binary
+  @spec to_bitwise([integer]) :: binary
   defp to_bitwise([]), do: <<>>
-  defp to_bitwise(list_of_binaries) do
-    [head | tail] = list_of_binaries
-    <<head :: 8, to_bitwise(tail)::bitstring>>
+  defp to_bitwise([head | tail]) do
+    <<head::8, to_bitwise(tail)::bitstring>>
   end
 
-  @spec encode(number :: Integer) :: [binary]
-  defp encode(number) do
-    if number == 0, do: 0b00000000
-  else
+  @spec encode_single(integer) :: [integer]
+  defp encode_single(0), do: [0b00000000]
+  defp encode_single(number) do
     tmp_bin = number &&& 0b01111111
-    number >>> 7
-    if number==0 do
-      [<<tmp_bin :: 8>>]
+    rest = number >>> 7
+
+    if rest == 0 do
+      [tmp_bin]
     else
-      [<<tmp_bin :: 8>> | encode(number)]
+      [(tmp_bin ||| 0b10000000) | encode_single(rest)]
     end
-
-    end
-
   end
-
 
   @doc """
   Decode a bitstring of VLQ encoded bytes into a series of integers
   """
-  @spec decode(bytes :: binary) :: {:ok, [integer]} | {:error, String.t()}
-  def decode(bytes) do
+  @spec decode(binary) :: {:ok, [integer]} | {:error, String.t()}
+  def decode(bytes), do: decode_bytes(bytes, 0, [])
+
+  defp decode_bytes(<<>>, _current, acc), do: {:ok, Enum.reverse(acc)}
+
+  defp decode_bytes(<<byte::8, rest::bitstring>>, current, acc) do
+    value = (current <<< 7) ||| (byte &&& 0b01111111)
+
+    if (byte &&& 0b10000000) == 0 do
+      decode_bytes(rest, 0, [value | acc])
+    else
+      decode_bytes(rest, value, acc)
+    end
   end
 end

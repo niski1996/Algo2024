@@ -1,0 +1,45 @@
+defmodule VariableLengthQuantity do
+  import Bitwise
+  @doc """
+  Encode integers into a bitstring of VLQ encoded bytes
+  """
+  @spec encode(integers :: [integer]) :: binary
+  def encode(integers) do
+    [number | tail] = integers
+    encoded_list= encode(number)
+    [last_bajt | tail] = encoded_list
+    encoded_list_with_stop = [band(last_bajt, 0b10000000) | tail]
+    ordered_bajts = Enum.reverse(encoded_list_with_stop)
+  end
+
+  @spec to_bitwise([binary]) :: binary
+  defp to_bitwise([]), do: <<>>
+  defp to_bitwise(list_of_binaries) do
+    [head | tail] = list_of_binaries
+    <<head :: 8, to_bitwise(tail)::bitstring>>
+  end
+
+  @spec encode(number :: Integer) :: [binary]
+  defp encode(number) do
+    if number == 0, do: 0b00000000
+  else
+    tmp_bin = number &&& 0b01111111
+    number >>> 7
+    if number==0 do
+      [<<tmp_bin :: 8>>]
+    else
+      [<<tmp_bin :: 8>> | encode(number)]
+    end
+
+    end
+
+  end
+
+
+  @doc """
+  Decode a bitstring of VLQ encoded bytes into a series of integers
+  """
+  @spec decode(bytes :: binary) :: {:ok, [integer]} | {:error, String.t()}
+  def decode(bytes) do
+  end
+end

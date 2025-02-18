@@ -8,10 +8,12 @@ defmodule Exercise.Application do
   def start(_type, _args) do
     IO.puts("Application started")
 
-    integers = [0x4000, 0x123456]
+    integers = [128]
 
     # tmpVal = Allergies.list(2)
-    VariableLengthQuantity.encode(integers)
+    tmp = VariableLengthQuantity.encode(integers)
+
+    IO.puts(Base.encode16(tmp))
 
 
     IO.puts("dupa")

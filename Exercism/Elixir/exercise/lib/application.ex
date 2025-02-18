@@ -4,16 +4,15 @@ defmodule Exercise.Application do
   alias VariableLengthQuantity
   alias SecretHandshake
   alias Allergies
+  alias CollatzConjecture
 
   def start(_type, _args) do
     IO.puts("Application started")
 
-    integers = [128]
-
     # tmpVal = Allergies.list(2)
-    tmp = VariableLengthQuantity.encode(integers)
+    tmp = CollatzConjecture.calc("ff")
 
-    IO.puts(Base.encode16(tmp))
+    IO.puts(tmp)
 
 
     IO.puts("dupa")

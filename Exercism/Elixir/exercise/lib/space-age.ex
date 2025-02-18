@@ -28,8 +28,9 @@ defmodule SpaceAge do
   """
   @spec age_on(planet, pos_integer) :: {:ok, float} | {:error, String.t()}
   def age_on(planet, seconds) do
-    seconds/(31557600*Map.get(@orbital_period, planet))
+    case Map.fetch(@orbital_period, planet) do
+      {:ok, period} -> {:ok, seconds / (31_557_600 * period)}
+      :error -> {:error, "Invalid planet"}
+    end
+    end
   end
-
-
-end

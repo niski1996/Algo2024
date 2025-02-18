@@ -1,14 +1,17 @@
 defmodule Exercise.Application do
   use Application
 
-  alias Inspect.Algebra
+  alias VariableLengthQuantity
   alias SecretHandshake
   alias Allergies
 
   def start(_type, _args) do
     IO.puts("Application started")
 
-    tmpVal = Allergies.list(2)
+    integers = [0x4000, 0x123456]
+
+    # tmpVal = Allergies.list(2)
+    VariableLengthQuantity.encode(integers)
 
 
     IO.puts("dupa")

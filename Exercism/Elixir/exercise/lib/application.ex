@@ -5,12 +5,13 @@ defmodule Exercise.Application do
   alias SecretHandshake
   alias Allergies
   alias CollatzConjecture
+  alias LogParser
 
   def start(_type, _args) do
     IO.puts("Application started")
 
     # tmpVal = Allergies.list(2)
-    tmp = CollatzConjecture.calc("ff")
+    tmp = LogParser.split_line("[INFO] Start.<*>[DEBUG] Processing...<~~~>[ERROR] Success.")
 
     IO.puts(tmp)
 

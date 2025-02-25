@@ -6,7 +6,7 @@ defmodule Bob do
       String.match?(input, ~r/^[^a-z]*[A-Z][^a-z]*$/) && String.ends_with?(input, "?") -> "Calm down, I know what I'm doing!"
       String.ends_with?(String.trim_trailing(input), "?") -> "Sure."
       String.match?(input, ~r/^[^a-z]*[A-Z][^a-z]*$/)-> "Whoa, chill out!"
-      1==1 -> "Whatever."
+      true -> "Whatever."
 
     end
   end

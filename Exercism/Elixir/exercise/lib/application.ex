@@ -1,19 +1,15 @@
 defmodule Exercise.Application do
   use Application
 
-  alias VariableLengthQuantity
-  alias SecretHandshake
-  alias Allergies
-  alias CollatzConjecture
-  alias LogParser
+  alias AllYourBase
 
   def start(_type, _args) do
     IO.puts("Application started")
 
     # tmpVal = Allergies.list(2)
-    tmp = LogParser.split_line("[INFO] Start.<*>[DEBUG] Processing...<~~~>[ERROR] Success.")
+    tmp = AllYourBase.convert([1,1,1,1],6,2)
 
-    IO.puts(tmp)
+    # IO.puts(tmp)
 
 
     IO.puts("dupa")

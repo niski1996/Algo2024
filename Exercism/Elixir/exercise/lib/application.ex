@@ -1,16 +1,19 @@
 defmodule Exercise.Application do
   use Application
 
-  alias AllYourBase
+  alias TopSecret
 
   def start(_type, _args) do
     IO.puts("Application started")
 
-    # tmpVal = Allergies.list(2)
-    tmp = AllYourBase.convert([1,1,1,1],6,2)
+    # Example usage of TopSecret.to_ast/1
+    string = "def fit(a, b, c), do: :scale"
+    ast = TopSecret.to_ast(string)
+    IO.inspect(ast, label: "AST")
 
-    # IO.puts(tmp)
-
+    # Example usage of Macro.expand/2
+    expanded_ast = Macro.expand(ast, __ENV__)
+    IO.inspect(expanded_ast, label: "Expanded AST")
 
     IO.puts("dupa")
 
